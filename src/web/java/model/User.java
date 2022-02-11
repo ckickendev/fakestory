@@ -2,6 +2,8 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class User {
     private int id;
     private String username;
@@ -12,7 +14,12 @@ public class User {
     private String description;
     private int numberFriends;
     private String country;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp dateCreate;
+    public User() {
+        super();
+    }
+
     public User(int id, String username, String password, String fullname, String phone, int role_id,
 	    String description, int numberFriends, String country, Timestamp dateCreate) {
 	super();
