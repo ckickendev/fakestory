@@ -2,11 +2,10 @@ package web.java.service.implement;
 
 import java.util.List;
 
-import web.java.dao.implement.UserDAO;
+import web.java.dao.UserDAO;
 import web.java.model.User;
-import web.java.service.IUserService;
 
-public class UserService implements IUserService {
+public class UserService {
     private UserDAO userDAO;
     
     public UserService() {

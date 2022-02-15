@@ -2,21 +2,18 @@ package web.java.service.implement;
 
 import java.util.List;
 
-import web.java.dao.IReactDAO;
-import web.java.dao.implement.ReactDAO;
+import web.java.dao.ReactDAO;
 import web.java.model.React;
-import web.java.service.IReactService;
 
-public class ReactService implements IReactService {
-    
-    private IReactDAO iReactDao;
+public class ReactService {
+    private ReactDAO reactDAO ;
     
     public ReactService() {
-	iReactDao = new ReactDAO();
+	reactDAO = new ReactDAO();
     }
-    @Override
+    
     public List<React> findAll() {
-        return iReactDao.findAll();
+        return reactDAO.findAll();
     }
     
     
