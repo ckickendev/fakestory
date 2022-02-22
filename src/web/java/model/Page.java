@@ -2,10 +2,13 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Page {
     private int id;
     private String name;
     private String description;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp dateCreate;
     private int liked;
     public Page(int id, String name, String description, Timestamp dateCreate, int liked) {

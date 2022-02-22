@@ -2,8 +2,8 @@ package web.java.service.implement;
 
 import java.util.List;
 
+import web.java.dao.MessageDAO;
 import web.java.model.Message;
-import web.java.model.MessageDAO;
 
 public class MessageService {
     private MessageDAO messageDAO;

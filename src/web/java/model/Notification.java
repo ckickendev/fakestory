@@ -2,11 +2,14 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Notification {
     private int id;
     private int user;
     private String title;
     private String content;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp datetime;
     public Notification(int id, int user, String title, String content, Timestamp datetime) {
 	super();

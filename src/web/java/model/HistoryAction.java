@@ -2,11 +2,14 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class HistoryAction {
     private int id;
     private String title;
     private int user;
     private int forward;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp dateTime;
     
     

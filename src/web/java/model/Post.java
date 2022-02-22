@@ -2,11 +2,14 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Post {
     private int id;
     private String content;
     private String image;
     private int user;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp time;
     private int react;
     public Post(int id, String content, String image, int user, Timestamp time, int react) {

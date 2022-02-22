@@ -2,9 +2,12 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class LikePage {
     private int id;
     private int pageId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp dateLike;
     public LikePage(int id, int pageId, Timestamp dateLike) {
 	super();

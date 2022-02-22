@@ -2,10 +2,13 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Group {
     private int id;
     private String name;
     private String des;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp dateCreate;
     private int totalMember;
     

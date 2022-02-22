@@ -1,4 +1,4 @@
-package web.java.model;
+package web.java.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import web.java.model.Message;
 import web.java.utils.ConnectDB;
 
 public class MessageDAO {

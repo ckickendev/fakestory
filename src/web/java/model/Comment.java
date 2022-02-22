@@ -2,11 +2,14 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Comment {
     private int id;
     private int userid;
     private String content;
     private int post_id;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp datetime;
     private int rep_id;
 

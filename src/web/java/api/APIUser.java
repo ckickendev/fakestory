@@ -18,8 +18,8 @@ import web.java.service.implement.UserService;
 import web.java.utils.HttpUtil;
 
 
-@WebServlet(urlPatterns = {"/api/admin/users"})
-public class UserAPI extends HttpServlet  {
+@WebServlet(urlPatterns = {"/api/admin/user"})
+public class APIUser extends HttpServlet  {
     private static final long serialVersionUID = 7742280602776321071L;
     
     @JacksonInject
@@ -27,14 +27,14 @@ public class UserAPI extends HttpServlet  {
     
     
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
-        req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json;charset=UTF-8");
+	request.setCharacterEncoding("UTF-8");
+	response.setContentType("application/json;charset=UTF-8");
         ObjectMapper objectMapper = new ObjectMapper();
-        User user = new UserDAO().findUserByID(1);
+        User user = new UserDAO().findUserByID(Integer.valueOf(request.getParameter("id")));
         String userJson = objectMapper.writeValueAsString(user);
-        PrintWriter printWriter = resp.getWriter();
+        PrintWriter printWriter = response.getWriter();
         printWriter.write(userJson);
         printWriter.close();
     }

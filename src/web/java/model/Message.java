@@ -2,10 +2,13 @@ package web.java.model;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Message {
     private int userFrom;
     private int userTo;
     private String content;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp dateTime;
     public Message(int userFrom, int userTo, String content, Timestamp dateTime) {
 	super();
