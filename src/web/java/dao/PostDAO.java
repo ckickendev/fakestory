@@ -78,6 +78,27 @@ public class PostDAO {
 	}
     }
     
+    public List<Post> findAllPostByUserId(int id){
+	Connection con = new ConnectDB().getDBConnection();
+	String query = "select * from post where user_id = ?";
+	List<Post> posts = new ArrayList<Post>();
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	if (con != null) {
+	    try {
+		ps = con.prepareStatement(query);
+		ps.setInt(1, id);
+		rs = ps.executeQuery();
+		posts.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
+			    rs.getInt(6)));
+		ps.executeUpdate();
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
+	}
+	return posts;
+    }
+    
     public void deletePost(int post_id) {
 	Connection con = new ConnectDB().getDBConnection();
 	String query = "delete * from post where post_id = ?";
