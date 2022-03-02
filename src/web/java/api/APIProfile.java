@@ -1,9 +1,6 @@
 package web.java.api;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import web.java.dao.PostDAO;
-import web.java.dao.UserDAO;
-import web.java.model.Post;
-import web.java.model.User;
 
 /**
  * Servlet implementation class APIProfile

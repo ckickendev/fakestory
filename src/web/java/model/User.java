@@ -10,6 +10,7 @@ public class User {
     private String password;
     private String fullname;
     private String phone;
+    private String avatar;
     private int role_id;
     private String description;
     private int numberFriends;
@@ -20,21 +21,25 @@ public class User {
         super();
     }
 
-    public User(int id, String username, String password, String fullname, String phone, int role_id,
-	    String description, int numberFriends, String country, Timestamp dateCreate) {
-	super();
-	this.id = id;
-	this.username = username;
-	this.password = password;
-	this.fullname = fullname;
-	this.phone = phone;
-	this.role_id = role_id;
-	this.description = description;
-	this.numberFriends = numberFriends;
-	this.country = country;
-	this.dateCreate = dateCreate;
-    }
-    public int getId() {
+    
+    public User(int id, String username, String password, String fullname, String phone, String avatar, int role_id,
+			String description, int numberFriends, String country, Timestamp dateCreate) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.fullname = fullname;
+		this.phone = phone;
+		this.avatar = avatar;
+		this.role_id = role_id;
+		this.description = description;
+		this.numberFriends = numberFriends;
+		this.country = country;
+		this.dateCreate = dateCreate;
+	}
+
+
+	public int getId() {
         return id;
     }
     public void setId(int id) {
@@ -94,7 +99,18 @@ public class User {
     public void setDateCreate(Timestamp dateCreate) {
         this.dateCreate = dateCreate;
     }
-    @Override
+    
+    public String getAvatar() {
+		return avatar;
+	}
+
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+
+	@Override
     public String toString() {
 	return "User [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
 		+ ", phone=" + phone + ", role_id=" + role_id + ", description=" + description + ", numberFriends="

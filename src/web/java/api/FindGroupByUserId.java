@@ -48,7 +48,9 @@ public class FindGroupByUserId extends HttpServlet {
 		String groupJson = objectMapper.writeValueAsString(groups);
 		
 		PrintWriter printWriter = response.getWriter();
+		
 		printWriter.write(groupJson);
+		
 		printWriter.close();
 	}
 

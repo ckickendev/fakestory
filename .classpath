@@ -22,5 +22,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/activation-jaf1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/javax.servlet.jsp.jstl-1.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/sqljdbc42.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
