@@ -55,6 +55,28 @@ public class PageDAO {
 		return page;
 	}
 	
+	public List<Page> findPageByUserId(int id) {
+		List<Page> pages = new ArrayList<Page>();
+	
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from page where page_id in (select page_id from like_page where user_id = ?)";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					pages.add(new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return pages;
+	}
+	
 	public void addPage(String name, String des, Timestamp time) {
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "insert into page(page_name, page_description, date_create, total_like) values (?, ?, ?, 0)";

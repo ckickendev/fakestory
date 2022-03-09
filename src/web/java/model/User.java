@@ -21,8 +21,8 @@ public class User {
         super();
     }
 
-    
-    public User(int id, String username, String password, String fullname, String phone, String avatar, int role_id,
+
+	public User(int id, String username, String password, String fullname, String phone, String avatar, int role_id,
 			String description, int numberFriends, String country, Timestamp dateCreate) {
 		super();
 		this.id = id;
@@ -36,6 +36,13 @@ public class User {
 		this.numberFriends = numberFriends;
 		this.country = country;
 		this.dateCreate = dateCreate;
+	}
+	
+
+	public User(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
 	}
 
 
@@ -113,7 +120,7 @@ public class User {
 	@Override
     public String toString() {
 	return "User [id=" + id + ", username=" + username + ", password=" + password + ", fullname=" + fullname
-		+ ", phone=" + phone + ", role_id=" + role_id + ", description=" + description + ", numberFriends="
+		+ ", phone=" + phone + "avatar = "+ avatar+ ", role_id=" + role_id + ", description=" + description + ", numberFriends="
 		+ numberFriends + ", country=" + country + ", dateCreate=" + dateCreate + "]";
     }
     

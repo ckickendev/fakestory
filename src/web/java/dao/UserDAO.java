@@ -60,7 +60,7 @@ public class UserDAO {
 
 	public void addUser(User user) {
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "insert into user(email, password, fullname, phone, role_id, description, number_friends, country, date_create ) values (?,?,?,?,?,?,?,?,?) ";
+		String query = "insert into user(email, password, fullname, phone, role_id, description, number_friends, country, date_create, avatar ) values (?,?,?,?,?,?,?,?,?,?) ";
 		PreparedStatement ps = null;
 		if (con != null) {
 			try {
@@ -74,6 +74,7 @@ public class UserDAO {
 				ps.setInt(7, user.getNumberFriends());
 				ps.setString(8, user.getCountry());
 				ps.setTimestamp(9, user.getDateCreate());
+				ps.setString(10, user.getAvatar());
 				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -126,6 +127,7 @@ public class UserDAO {
 		User user = null;
 		Connection con = new ConnectDB().getDBConnection();
 		String passwordEn = GeneralFunction.getEncodedString(password);
+		
 		String query = "select * from user where email = ? and password = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;

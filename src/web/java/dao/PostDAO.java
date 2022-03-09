@@ -91,12 +91,37 @@ public class PostDAO {
 				rs = ps.executeQuery();
 				posts.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
 						rs.getInt(6)));
-				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		return posts;
+	}
+	
+	public List<Post> findAllPostInGroup(int id) {
+		List<Post> all = new ArrayList<Post>();
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from post where post_id in (select post_id from post_in_group where group_id = ?)";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				System.out.print(ps);
+				while (rs.next()) {
+					all.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
+							rs.getInt(6)));
+				}
+				return all;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return all;
+		
+		
 	}
 	
 	public void modifyPost(int post_id, String content, String image, int user_id, Timestamp time, int react) {
@@ -133,4 +158,6 @@ public class PostDAO {
 			}
 		}
 	}
+	
+	
 }

@@ -9,7 +9,7 @@ import web.java.model.User;
 import web.java.utils.ConnectDB;
 
 public class Authentication {
-	public void Register(String username, String password) {
+	public void Login(String username, String password) {
 		User user = null;
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "select * from user where user_id = ?";

@@ -68,8 +68,6 @@ public class APIPage extends HttpServlet {
 		// TODO Auto-generated method stub
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json;charset=UTF-8");
-		
-
 		new PageDAO().deletePage(req.getParameter("id"));
 	}
 
