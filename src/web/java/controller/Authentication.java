@@ -82,18 +82,6 @@ public class Authentication extends HttpServlet {
 		ObjectMapper objectMapper = new ObjectMapper();
 		PrintWriter printWriter = response.getWriter();
 
-//		List<User> users = new UserDAO().findAll();
-//		String usersJson = objectMapper.writeValueAsString(users);
-//		printWriter.write(usersJson);
-//		printWriter.close();
-		
-//		User user = new UserDAO().findUserByID(1);
-//		String usersJson = objectMapper.writeValueAsString(user);
-//		System.out.print(usersJson);
-//		printWriter.write(usersJson);
-//		printWriter.close();
-
-//		 handle request
 		User userJson = new Gson().fromJson(request.getReader(), User.class);
 		String username = userJson.getUsername();
 		String password = userJson.getPassword();

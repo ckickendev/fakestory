@@ -3,6 +3,8 @@ package web.java.api;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -46,14 +48,28 @@ public class APIUser extends HttpServlet {
 		// TODO Auto-generated method stub
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
+		String avatar = Integer.valueOf(req.getParameter("sex")) == 1 ? "https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultAvatar.png?alt=media&token=8042470b-2bd9-4f51-825f-d62bb94f6e7b" : "https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaulAvatarFemale.png?alt=media&token=0fc589be-e8b1-42db-a16b-0b4a9333513b";
 		User user = new User(0, req.getParameter("username"), req.getParameter("password"),
-				req.getParameter("fullname"), req.getParameter("phone"), req.getParameter("avatar"),
-				Integer.valueOf(req.getParameter("role_id")), req.getParameter("description"), 0,
-				req.getParameter("country"), null);
-		System.out.print(user);
+				req.getParameter("fullname"), req.getParameter("phone"), avatar,
+				req.getParameter("background"), Integer.valueOf(req.getParameter("role_id")),
+				req.getParameter("description"), 0, req.getParameter("country"), req.getParameter("live"),
+				Integer.valueOf(req.getParameter("sex")), null, null);
 		Date date = new Date();
+		System.out.print(date);
 		Timestamp time = new Timestamp(date.getTime());
 		user.setDateCreate(time);
+
+		System.out.print(req.getParameter("birthday"));
+
+		String birthday = req.getParameter("birthday");
+		try {
+			Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
+			Timestamp birthdayTime = new Timestamp(date1.getTime());
+			user.setBirthday(birthdayTime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		new UserDAO().addUser(user);
 	}
 

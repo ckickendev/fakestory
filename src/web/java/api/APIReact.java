@@ -2,6 +2,7 @@ package web.java.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
+import web.java.dao.PostDAO;
 import web.java.dao.ReactDAO;
+import web.java.model.Post;
+import web.java.model.React;
 
 /**
  * Servlet implementation class APIReact
@@ -54,8 +59,15 @@ public class APIReact extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
-		new ReactDAO().addReact(Integer.valueOf(request.getParameter("userid")),
-				Integer.valueOf(request.getParameter("postid")), Integer.valueOf(request.getParameter("type")));
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		PrintWriter printWriter = response.getWriter();
+
+		React reactJson = new Gson().fromJson(request.getReader(), React.class);
+		
+		new ReactDAO().addReact(reactJson.getUser(), reactJson.getPost(), reactJson.getType());
+		String newPost = objectMapper.writeValueAsString(new PostDAO().findPostById(reactJson.getPost()));
+		printWriter.write(newPost);
 	}
 
 	@Override

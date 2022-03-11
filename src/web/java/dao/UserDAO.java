@@ -24,8 +24,8 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					allUsers.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), rs.getString(11), rs.getInt(6), rs.getString(7), rs.getInt(8),
-							rs.getString(9), rs.getTimestamp(10)));
+							rs.getString(5), rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14)));
 				}
 				return allUsers;
 			} catch (SQLException e) {
@@ -46,10 +46,12 @@ public class UserDAO {
 				ps = con.prepareStatement(query);
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
+				System.out.print(ps);
+				System.out.print(rs);
 				while (rs.next()) {
 					user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getTimestamp(10));
+							rs.getString(11), rs.getString(12),rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
+							rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -60,7 +62,7 @@ public class UserDAO {
 
 	public void addUser(User user) {
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "insert into user(email, password, fullname, phone, role_id, description, number_friends, country, date_create, avatar ) values (?,?,?,?,?,?,?,?,?,?) ";
+		String query = "insert into user(email, password, fullname, phone, role_id, description, number_friends, country, date_create, avatar, background, live, birthday,sex ) values (?,?,?,?,?,?,?,?,?,?,?,?,?, ?) ";
 		PreparedStatement ps = null;
 		if (con != null) {
 			try {
@@ -75,6 +77,10 @@ public class UserDAO {
 				ps.setString(8, user.getCountry());
 				ps.setTimestamp(9, user.getDateCreate());
 				ps.setString(10, user.getAvatar());
+				ps.setString(11, user.getBackground());
+				ps.setString(12, user.getLive());
+				ps.setTimestamp(13, user.getBirthday());
+				ps.setInt(14, user.getSex());
 				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -139,8 +145,8 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				if (rs.next()) {
 					user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getTimestamp(10));
+							rs.getString(11),rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
+							rs.getString(13), rs.getInt(15),rs.getTimestamp(10), rs.getTimestamp(14));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -162,8 +168,8 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getTimestamp(10)));
+							rs.getString(11),rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
+							rs.getString(13), rs.getInt(15),rs.getTimestamp(10), rs.getTimestamp(14)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -180,8 +186,8 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getTimestamp(10)));
+							rs.getString(11),rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
+							rs.getString(13), rs.getInt(15),rs.getTimestamp(10), rs.getTimestamp(14)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

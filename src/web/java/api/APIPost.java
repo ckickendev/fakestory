@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import web.java.dao.PostDAO;
 import web.java.model.Post;
@@ -55,16 +56,23 @@ public class APIPost extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
 		
-		String content = request.getParameter("content");
-		String image = request.getParameter("image");
-		String user_id = request.getParameter("user_id");
+		ObjectMapper objectMapper = new ObjectMapper();
+		PrintWriter printWriter = response.getWriter();
+			
+		Post postJson = new Gson().fromJson(request.getReader(), Post.class);
+		String content = postJson.getContent();
+		String image = postJson.getImage();
+		String user_id = String.valueOf(postJson.getUser());
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
-	
-		
 		new PostDAO().addPost(content, image, Integer.valueOf(user_id), timestamp, 0);
-	
+		
+		String newPost = objectMapper.writeValueAsString(new PostDAO().findLastPost());
+		printWriter.write(newPost);
+		printWriter.close();
 	}
 
 	@Override
