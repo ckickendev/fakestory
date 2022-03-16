@@ -40,7 +40,7 @@ public class APIFriend extends HttpServlet {
 		response.setContentType("application/json;charset=UTF-8");
 		ObjectMapper objectMapper = new ObjectMapper();
 		
-		List<User> users = new UserDAO().findAllFriendById(Integer.valueOf(request.getParameter("id")) );
+		List<User> users = new UserDAO().findAllFriendById(Integer.valueOf(request.getParameter("id")), 100 );
 		
 		String userJson = objectMapper.writeValueAsString(users);
 		PrintWriter printWriter = response.getWriter();

@@ -88,16 +88,20 @@ public class PostDAO {
 			try {
 				ps = con.prepareStatement(query);
 				ps.setInt(1, id);
+				System.out.print(ps);
 				rs = ps.executeQuery();
-				posts.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
-						rs.getInt(6)));
+				while (rs.next()) {
+					posts.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
+							rs.getInt(6)));
+				}
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		return posts;
 	}
-	
+
 	public List<Post> findAllPostInGroup(int id) {
 		List<Post> all = new ArrayList<Post>();
 		Connection con = new ConnectDB().getDBConnection();
@@ -120,10 +124,9 @@ public class PostDAO {
 			}
 		}
 		return all;
-		
-		
+
 	}
-	
+
 	public void modifyPost(int post_id, String content, String image, int user_id, Timestamp time, int react) {
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "update post set content = ?, image = ?, user_id = ?, date_time=?, number_react = ? where id = ?";
@@ -158,7 +161,7 @@ public class PostDAO {
 			}
 		}
 	}
-	
+
 	public Post findLastPost() {
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "SELECT * FROM post order by date_time desc limit 1";
@@ -179,6 +182,5 @@ public class PostDAO {
 		}
 		return post;
 	}
-	
-	
+
 }

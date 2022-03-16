@@ -44,7 +44,7 @@ public class MainServlet extends HttpServlet {
 	
 	ObjectMapper objectMapper = new ObjectMapper();
 	
-	List<User> users = new UserDAO().findAllFriendById(1);
+	List<User> users = new UserDAO().findAllFriendById(1,100);
 	
 	List<Group> groups = new GroupDAO().findAllGroupByUserId(1);
 	

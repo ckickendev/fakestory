@@ -24,8 +24,9 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					allUsers.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
-							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14)));
+							rs.getString(5), rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7),
+							rs.getInt(8), rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10),
+							rs.getTimestamp(14)));
 				}
 				return allUsers;
 			} catch (SQLException e) {
@@ -46,12 +47,10 @@ public class UserDAO {
 				ps = con.prepareStatement(query);
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
-				System.out.print(ps);
-				System.out.print(rs);
 				while (rs.next()) {
 					user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11), rs.getString(12),rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -133,7 +132,7 @@ public class UserDAO {
 		User user = null;
 		Connection con = new ConnectDB().getDBConnection();
 		String passwordEn = GeneralFunction.getEncodedString(password);
-		
+
 		String query = "select * from user where email = ? and password = ?";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -145,8 +144,8 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				if (rs.next()) {
 					user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11),rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getString(13), rs.getInt(15),rs.getTimestamp(10), rs.getTimestamp(14));
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -155,7 +154,55 @@ public class UserDAO {
 		return user;
 	}
 
-	public List<User> findAllFriendById(int id) {
+	public int[] findFriendId(int id, int number) {
+		int[] idArray = new int[20];
+		int index=0;
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select user_id_2 as user_id from friend_status where user_id_1 = ? and status = 1 ";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					idArray[index] = rs.getInt(1);
+					index ++;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		query = "select user_id_1 as user_id from friend_status where user_id_2 = ? and status = 1 ";
+		ps = null;
+		rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					idArray[index] = rs.getInt(1);
+					index++;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		int sizeId = index;
+		int size = number > sizeId ? sizeId : number;
+//		System.out.println("size"+ size);
+		int[] cloneArr = new int[size];
+		for (int i = 0; i < size; i++) {
+//			System.out.println("Cloning element: " + idArray[i]);
+			cloneArr[i] = idArray[i];
+		}
+		return cloneArr;
+	}
+
+	public List<User> findAllFriendById(int id, int number) {
 		List<User> users = new ArrayList<User>();
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "select * from user where user_id in (select user_id_2 as user_id from friend_status where user_id_1 = ? and status = 1 )";
@@ -168,8 +215,9 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11),rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getString(13), rs.getInt(15),rs.getTimestamp(10), rs.getTimestamp(14)));
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10),
+							rs.getTimestamp(14)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -186,14 +234,22 @@ public class UserDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11),rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8), rs.getString(9),
-							rs.getString(13), rs.getInt(15),rs.getTimestamp(10), rs.getTimestamp(14)));
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10),
+							rs.getTimestamp(14)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return users;
+		int size = number > users.size() ? users.size() : number;
+		System.out.print(size);
+		List<User> userClone = new ArrayList<User>(size);
+		for (int i = 0; i < size; i++) {
+			System.out.print(users.get(i));
+			userClone.add(users.get(i));
+		}
+		return userClone;
 	}
 
 }

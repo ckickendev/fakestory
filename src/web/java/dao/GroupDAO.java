@@ -26,7 +26,7 @@ public class GroupDAO {
 					allGroups.add(
 //			    (int id, String name, String des, Timestamp dateCreate, int totalMember)
 							new Group(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4),
-									rs.getInt(5)));
+									rs.getInt(5), rs.getString(6)));
 				}
 				return allGroups;
 			} catch (SQLException e) {
@@ -49,7 +49,7 @@ public class GroupDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					allGroups.add(new Group(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4),
-							rs.getInt(5)));
+							rs.getInt(5), rs.getString(6)));
 				}
 				return allGroups;
 			} catch (SQLException e) {
@@ -71,7 +71,7 @@ public class GroupDAO {
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
 				while (rs.next()) {
-					group = new Group(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5));
+					group = new Group(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5), rs.getString(6));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -58,10 +58,10 @@ public class APIPost extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		PrintWriter printWriter = response.getWriter();
-			
+
 		Post postJson = new Gson().fromJson(request.getReader(), Post.class);
 		String content = postJson.getContent();
 		String image = postJson.getImage();
@@ -69,10 +69,11 @@ public class APIPost extends HttpServlet {
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		new PostDAO().addPost(content, image, Integer.valueOf(user_id), timestamp, 0);
-		
+
 		String newPost = objectMapper.writeValueAsString(new PostDAO().findLastPost());
 		printWriter.write(newPost);
 		printWriter.close();
+
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class APIPost extends HttpServlet {
 		int id = Integer.parseInt(req.getParameter("postDelete"));
 		new PostDAO().deletePost(id);
 	}
-	
+
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -92,8 +93,9 @@ public class APIPost extends HttpServlet {
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		int number_react = Integer.valueOf(req.getParameter("number_react"));
-	
-		new PostDAO().modifyPost(Integer.valueOf(post_id), content, image, Integer.valueOf(user_id), timestamp, number_react);
+
+		new PostDAO().modifyPost(Integer.valueOf(post_id), content, image, Integer.valueOf(user_id), timestamp,
+				number_react);
 	}
 
 }
