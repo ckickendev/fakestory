@@ -63,7 +63,7 @@ CREATE TABLE `friend_status` (
   KEY `user_id_2` (`user_id_2`),
   CONSTRAINT `friend_status_ibfk_1` FOREIGN KEY (`user_id_1`) REFERENCES `user` (`user_id`),
   CONSTRAINT `friend_status_ibfk_2` FOREIGN KEY (`user_id_2`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `friend_status` (
 
 LOCK TABLES `friend_status` WRITE;
 /*!40000 ALTER TABLE `friend_status` DISABLE KEYS */;
-INSERT INTO `friend_status` VALUES (1,1,3,1),(2,1,4,1),(3,3,4,1);
+INSERT INTO `friend_status` VALUES (1,1,3,1),(2,1,4,1),(3,3,4,1),(4,1,1,0);
 /*!40000 ALTER TABLE `friend_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,13 +84,14 @@ DROP TABLE IF EXISTS `group_fb`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `group_fb` (
-  `group_id` int NOT NULL,
+  `group_id` int unsigned NOT NULL AUTO_INCREMENT,
   `group_name` varchar(255) DEFAULT NULL,
   `group_description` varchar(255) DEFAULT NULL,
   `date_create` datetime DEFAULT NULL,
   `total_member` int DEFAULT NULL,
+  `background` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +100,7 @@ CREATE TABLE `group_fb` (
 
 LOCK TABLES `group_fb` WRITE;
 /*!40000 ALTER TABLE `group_fb` DISABLE KEYS */;
-INSERT INTO `group_fb` VALUES (1,'Hội những người từng đi tù','Group là nơi giao lưu ','2022-01-01 03:43:20',0),(2,'Hội những anh em FA','Group FA','2022-01-01 03:43:20',0),(3,'Lập trình viên Java ','Group for JAVA','2022-01-01 03:43:20',0);
+INSERT INTO `group_fb` VALUES (1,'Hội những người từng đi tù','Group là nơi giao lưu ','2022-01-01 03:43:20',0,'https://cms.luatvietnam.vn/uploaded/Images/Original/2018/07/13/di-tu_1307171739.jpg'),(2,'Hội những anh em FA','Group FA','2022-01-01 03:43:20',0,'https://mcdn.coolmate.me/image/September2021/fa-la-gi-13.jpg'),(3,'Lập trình viên Java ','Group for JAVA','2022-01-01 03:43:20',0,NULL),(4,'bay nu cuoi xuan ','7 nu','2022-03-02 23:45:02',0,NULL);
 /*!40000 ALTER TABLE `group_fb` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,6 +182,7 @@ CREATE TABLE `like_page` (
 
 LOCK TABLES `like_page` WRITE;
 /*!40000 ALTER TABLE `like_page` DISABLE KEYS */;
+INSERT INTO `like_page` VALUES (6,1,'2021-12-31 20:43:20'),(1,1,'2021-12-31 20:43:20'),(1,2,'2021-12-31 20:43:20');
 /*!40000 ALTER TABLE `like_page` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +201,6 @@ CREATE TABLE `member` (
   KEY `group_id` (`group_id`),
   KEY `role_member_id` (`role_member_id`),
   CONSTRAINT `member_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  CONSTRAINT `member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group_fb` (`group_id`),
   CONSTRAINT `member_ibfk_3` FOREIGN KEY (`role_member_id`) REFERENCES `role_group` (`role_member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -210,7 +211,7 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (1,1,1),(1,3,1),(1,2,1);
+INSERT INTO `member` VALUES (6,1,1),(6,2,1),(1,1,1),(1,2,1);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +342,7 @@ CREATE TABLE `post` (
   PRIMARY KEY (`post_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +351,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (2,'123','213',1,'2022-02-15 15:45:15',3);
+INSERT INTO `post` VALUES (2,'Vì sao mình lại phải làm cái dự án chít tịt này','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2Fh993c38difc0e?alt=media&token=3470e7c2-0bc3-4a10-9db2-f2120bab751d',1,'2022-02-15 15:45:15',7),(3,'Hôm nay tôi chia tay, buồn quá','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2Fimager_25787.jpg?alt=media&token=f718115d-88d9-487e-8bde-f34ef0b63e38',1,'2022-03-02 21:38:18',0),(5,'Tao là trùm Vỹ Dạ','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2Fgiangho.jpg?alt=media&token=de140eb7-ceb0-4d17-b6ff-6fcbd35c7441',3,'2022-03-02 21:43:22',0),(6,'Tôi buồn quá mọi người à','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2Ftoibuon.jpg?alt=media&token=6f83c24d-3543-49cf-8986-5e28edd055cd',20,'2022-03-11 15:20:07',0),(7,'VIETNAMNUMBERONE','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2Fvietnam.jpg?alt=media&token=0cdd9839-cc5e-43eb-81ca-6739dce7d5d9',1,'2022-03-11 15:37:37',0),(8,'asdasd','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2F4fj40e305jh98?alt=media&token=52d71543-a3cc-485b-af94-a50e61b785b4',6,'2022-03-16 08:43:38',0);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,8 +367,7 @@ CREATE TABLE `post_in_group` (
   `group_id` int DEFAULT NULL,
   KEY `post_id` (`post_id`),
   KEY `group_id` (`group_id`),
-  CONSTRAINT `post_in_group_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`),
-  CONSTRAINT `post_in_group_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group_fb` (`group_id`)
+  CONSTRAINT `post_in_group_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -377,6 +377,7 @@ CREATE TABLE `post_in_group` (
 
 LOCK TABLES `post_in_group` WRITE;
 /*!40000 ALTER TABLE `post_in_group` DISABLE KEYS */;
+INSERT INTO `post_in_group` VALUES (5,3);
 /*!40000 ALTER TABLE `post_in_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -432,7 +433,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'admin_system','Admin of the system, this role is higest role'),(2,'user','User of the system, no more permission');
+INSERT INTO `role` VALUES (0,'user','User of the system, no more permission'),(1,'admin_system','Admin of the system, this role is higest role');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -555,10 +556,15 @@ CREATE TABLE `user` (
   `number_friends` int DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
   `date_create` datetime DEFAULT NULL,
+  `avatar` varchar(500) DEFAULT NULL,
+  `background` varchar(500) DEFAULT NULL,
+  `live` varchar(255) DEFAULT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `sex` int DEFAULT '1',
   PRIMARY KEY (`user_id`),
   KEY `role_id` (`role_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -567,7 +573,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'thesoonafu@gmail.com','123123','Nguyễn Văn Đức Độ','0827299123',1,'Đẹp trai vcl',0,'Huế','2021-12-31 20:43:20'),(3,'ngoluongdanvanngu@gmail.com','MTIz','Ngô Lương Văn Dần','0828282822',1,'Dần xấu ',0,'Huế','2022-01-01 03:43:20'),(4,'tranvanson@gmail.com','MTIz','Trần Văn Sơn','0228288282',1,'Sơn xấu trai ',0,'Đà Nẵng','2022-01-01 03:43:20'),(5,'tranthithuhoai@gmail.com','MTIz','Hoài Kute','0387372727',1,'Hoài xấu gái',0,'Đà Nẵng','2022-01-01 03:43:20'),(6,'babangu@gmail.com','MTIz','Hoàng Thịnh','0477372772',1,'Thích vợ bé',0,'Đà Nẵng','2022-01-01 03:43:20');
+INSERT INTO `user` VALUES (1,'thesoonafu@gmail.com','MTIz','Nguyễn Văn Đức Độ','0827299123',1,'Anh không làm được nhưng anh hứa được',0,'Huế','2021-12-31 20:43:20','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultAvatar.png?alt=media&token=8042470b-2bd9-4f51-825f-d62bb94f6e7b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652','Da Nang',NULL,1),(3,'ngoluongdanvanngu@gmail.com','MTIz','Ngô Lương Văn Dần','0828282822',1,'Dần xấu ',0,'Huế','2022-01-01 03:43:20','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultAvatar.png?alt=media&token=8042470b-2bd9-4f51-825f-d62bb94f6e7b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652','Da Nang',NULL,1),(4,'tranvanson@gmail.com','MTIz','Trần Văn Sơn','0228288282',1,'Sơn xấu trai ',0,'Đà Nẵng','2022-01-01 03:43:20','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultAvatar.png?alt=media&token=8042470b-2bd9-4f51-825f-d62bb94f6e7b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652','Da Nang',NULL,1),(5,'tranthithuhoai@gmail.com','MTIz','Hoài Kute','0387372727',1,'Hoài xấu gái',0,'Đà Nẵng','2022-01-01 03:43:20','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultAvatar.png?alt=media&token=8042470b-2bd9-4f51-825f-d62bb94f6e7b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652','Da Nang',NULL,1),(6,'babangu@gmail.com','MTIz','Hoàng Thịnh','0477372772',1,'Thích bé Ai',0,'Đà Nẵng','2022-01-01 03:43:20','https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/274874049_1682612112084696_1887295902668061243_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=ad2b24&_nc_ohc=Io9esu08XrMAX_OpQBo&tn=lvRwZm_Uarm2tvVg&_nc_ht=scontent.fhan14-1.fna&oh=00_AT8BwL52wOBDA3eYiafgk-pUcTT6ssUCw-DtYC6ODyvjug&oe=62331364','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652','Da Nang',NULL,1),(20,'huycute@gmail.com','MTIz','Nguyễn Minh Huy','none',0,'none',0,'none','2022-03-11 13:39:09','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultAvatar.png?alt=media&token=8042470b-2bd9-4f51-825f-d62bb94f6e7b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652','Da Nang','2022-03-31 00:00:00',1),(21,'ltd@gmail.com','MTIz','Lê Trung Dũng','none',0,'Phở Phở',0,'Quảng Bình','2022-03-14 16:27:54','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultAvatar.png?alt=media&token=8042470b-2bd9-4f51-825f-d62bb94f6e7b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652','Đà Nẵng','2001-06-19 00:00:00',1),(22,'dungbone@gmail.com','MTIzMTIz','Dương Nguyễn Thùy Dung','none',0,'none',0,'none','2022-03-14 16:31:47','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaulAvatarFemale.png?alt=media&token=0fc589be-e8b1-42db-a16b-0b4a9333513b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652',NULL,'2022-11-29 00:00:00',2),(23,'vbvc2001@gmail.com','MTIzMTIzMTIz','Võ Bảo Văn Chương','none',0,'none',0,'none','2022-03-14 16:32:17','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaulAvatarFemale.png?alt=media&token=0fc589be-e8b1-42db-a16b-0b4a9333513b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652',NULL,'2022-11-29 00:00:00',2),(24,'httm.m@gmail.com','MTIzMTIz','Hà Thị Thùy Mến ','none',0,'none',0,'none','2022-03-14 16:33:05','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaulAvatarFemale.png?alt=media&token=0fc589be-e8b1-42db-a16b-0b4a9333513b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652',NULL,'2001-01-16 00:00:00',2),(25,'xuanaile@gmail.com','MTIzMTIzMTIz','Xuân Ái Lê','none',0,'none',0,'none','2022-03-14 16:33:29','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaulAvatarFemale.png?alt=media&token=0fc589be-e8b1-42db-a16b-0b4a9333513b','https://firebasestorage.googleapis.com/v0/b/fakestory-9fb8d.appspot.com/o/file%2FdefaultBackground.png?alt=media&token=1593e00a-c090-4ac3-9cf7-2863b71d1652',NULL,'2001-01-16 00:00:00',2);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -580,4 +586,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-28 18:30:16
+-- Dump completed on 2022-03-16 13:46:53
