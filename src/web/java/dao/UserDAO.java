@@ -153,6 +153,31 @@ public class UserDAO {
 		}
 		return user;
 	}
+	
+	public String[] findAllImageByUserId(int id) {
+		String[] photos = new String[9];
+		int index = 0;
+		Connection con = new ConnectDB().getDBConnection();
+
+		String query = "select image as img from post where user_id = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				System.out.print(ps);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					photos[index] = rs.getString(1);
+					index ++;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return photos;
+	}
 
 	public int[] findFriendId(int id, int number) {
 		int[] idArray = new int[20];

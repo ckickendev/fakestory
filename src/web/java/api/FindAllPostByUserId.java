@@ -3,6 +3,7 @@ package web.java.api;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -47,7 +48,7 @@ public class FindAllPostByUserId extends HttpServlet {
 		List<Post> postOfUser = postDAO.findAllPostByUserId(Integer.valueOf(request.getParameter("id")));
 
 		
-
+		Collections.sort(postOfUser);
 		String postJson = objectMapper.writeValueAsString(postOfUser);
 		PrintWriter printWriter = response.getWriter();
 		printWriter.write(postJson);

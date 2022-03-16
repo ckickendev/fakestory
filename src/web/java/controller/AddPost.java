@@ -37,12 +37,14 @@ public class AddPost extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
 		String content = request.getParameter("content");
 		String image = request.getParameter("image");
 		String user_id = request.getParameter("user_id");
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
-		System.out.print(content +"==="+  image +"==="+ Integer.valueOf(user_id) +"==="+timestamp);
+//		System.out.print(content +"==="+  image +"==="+ Integer.valueOf(user_id) +"==="+timestamp);
 		PostDAO postDAO = new PostDAO();
 		postDAO.addPost(content, image,Integer.valueOf(user_id) , timestamp, 0);
 		response.sendRedirect("http://localhost:3000/");

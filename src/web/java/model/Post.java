@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Post {
+public class Post implements Comparable<Post> {
 	private int id;
 	private String content;
 	private String image;
@@ -22,7 +22,7 @@ public class Post {
 		this.time = time;
 		this.react = react;
 	}
-	
+
 	public Post(int id, String content, String image, int user, int react) {
 		super();
 		this.id = id;
@@ -31,10 +31,6 @@ public class Post {
 		this.user = user;
 		this.react = react;
 	}
-
-
-
-
 
 	public int getId() {
 		return id;
@@ -88,6 +84,11 @@ public class Post {
 	public String toString() {
 		return "Post [id=" + id + ", content=" + content + ", image=" + image + ", user=" + user + ", time=" + time
 				+ ", react=" + react + "]";
+	}
+
+	public int compareTo(Post post) {
+		// sort student's name by ASC
+		return post.getTime().compareTo(this.getTime());
 	}
 
 }

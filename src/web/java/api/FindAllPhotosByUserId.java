@@ -2,10 +2,6 @@ package web.java.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,21 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import web.java.dao.PostDAO;
 import web.java.dao.UserDAO;
-import web.java.model.Post;
 
 /**
- * Servlet implementation class APIFilterPost
+ * Servlet implementation class FindAllPhotosByUserId
  */
-@WebServlet("/api/filter/postuser")
-public class APIFilterPost extends HttpServlet {
+@WebServlet("/api/photos/userId")
+public class FindAllPhotosByUserId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public APIFilterPost() {
+	public FindAllPhotosByUserId() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -43,34 +37,12 @@ public class APIFilterPost extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
-		PostDAO postDAO = new PostDAO();
-		List<Post> postOfUser = postDAO.findAllPostByUserId(Integer.valueOf(request.getParameter("id")));
+		 
+		String[] photos = new UserDAO().findAllImageByUserId(Integer.valueOf(request.getParameter("id")));
 		
-		int[] listFriendsId = new UserDAO().findFriendId(Integer.valueOf(request.getParameter("id")), 10);
-		
-		List<Post> postOfFriends = new ArrayList<Post>();
-		for(int x: listFriendsId) {	
-			System.out.println("FriendId" + x);
-			List<Post> postFriendClone = postDAO.findAllPostByUserId(x);
-			for(Post a: postFriendClone) {
-				postOfFriends.add(a);
-			}
-		}
-		
-		List<Post> posts = new ArrayList<Post>();
-		for(Post a: postOfUser) {
-			System.out.print(a);
-			posts.add(a);
-		}
-		for(Post b: postOfFriends) {
-			System.out.print(b);
-			posts.add(b);
-		}
-		Collections.sort(posts);
-		
-		String postJson = objectMapper.writeValueAsString(posts);
+		String postJson = objectMapper.writeValueAsString(photos);
 		PrintWriter printWriter = response.getWriter();
 		printWriter.write(postJson);
 		printWriter.close();
