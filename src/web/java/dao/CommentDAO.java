@@ -11,26 +11,69 @@ import web.java.model.Comment;
 import web.java.utils.ConnectDB;
 
 public class CommentDAO {
-    public List<Comment> findAll() {
-	List<Comment> all = new ArrayList<Comment>();
-	Connection con = new ConnectDB().getDBConnection();
-	String query = "select * from comment";
-	PreparedStatement ps = null;
-	ResultSet rs = null;
-	if(con != null) {
-	    try {
-		ps = con.prepareStatement(query);
-		rs = ps.executeQuery();
-		while(rs.next()) {
-		    all.add(new Comment(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5), rs.getInt(6)));
+	public List<Comment> findAll() {
+		List<Comment> all = new ArrayList<Comment>();
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from comment";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					all.add(new Comment(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
+							rs.getInt(6)));
+				}
+				return all;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return all;
-	    } catch (SQLException e) {
-		e.printStackTrace();
-	    }
+		return null;
 	}
-	return null;
-    }
-    
-    
+
+	public List<Comment> findAllCommentByPostId(int id) {
+		List<Comment> all = new ArrayList<Comment>();
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from comment where post_id = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					all.add(new Comment(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
+							rs.getInt(6)));
+				}
+				return all;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public void addComment(Comment comment) {
+		System.out.print("alo");
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "insert into comment(user_rep_id, content, post_id, date_comment, reply_comment_id) values (? , ?, ?, ?, ?)";
+		PreparedStatement ps = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, comment.getUserid());
+				ps.setString(2, comment.getContent());
+				ps.setInt(3, comment.getPost_id());
+				ps.setTimestamp(4, comment.getDatetime());
+				ps.setInt(5, comment.getRep_id());
+				System.out.print(ps);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

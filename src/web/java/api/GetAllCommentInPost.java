@@ -2,8 +2,8 @@ package web.java.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,24 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import web.java.dao.CommentDAO;
-import web.java.dao.PostDAO;
 import web.java.model.Comment;
-import web.java.model.Post;
 
 /**
- * Servlet implementation class APIComment
+ * Servlet implementation class GetAllCommentInPost
  */
-@WebServlet("/api/admin/comment")
-public class APIComment extends HttpServlet {
+@WebServlet("/api/comment/postId")
+public class GetAllCommentInPost extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public APIComment() {
+    public GetAllCommentInPost() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,7 +36,17 @@ public class APIComment extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Comment> comments = new CommentDAO().findAllCommentByPostId(Integer.valueOf(request.getParameter("id")));
+		Collections.sort(comments);
+		
+		String commentJson = objectMapper.writeValueAsString(comments);
+		PrintWriter printWriter = response.getWriter();
+		printWriter.write(commentJson);
+		printWriter.close();
 	}
 
 	/**
@@ -47,25 +54,7 @@ public class APIComment extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("application/json;charset=UTF-8");
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		PrintWriter printWriter = response.getWriter();
-		
-		Comment commentJson = new Gson().fromJson(request.getReader(), Comment.class);
-		Date date = new Date();
-		Timestamp timestamp = new Timestamp(date.getTime());
-		commentJson.setDatetime(timestamp);
-		System.out.print(commentJson);
-		
-		CommentDAO commentDAO = new CommentDAO();
-		commentDAO.addComment(commentJson);
-
-		String newComment = objectMapper.writeValueAsString(new PostDAO().findLastCommentInPost(commentJson.getPost_id()));
-//		System.out.print("New comment: "+ newComment);
-		printWriter.write(newComment);
-		printWriter.close();
+		doGet(request, response);
 	}
 
 }

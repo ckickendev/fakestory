@@ -159,7 +159,7 @@ public class UserDAO {
 		int index = 0;
 		Connection con = new ConnectDB().getDBConnection();
 
-		String query = "select image as img from post where user_id = ?";
+		String query = "select image as img from post where user_id = ? order by date_time desc";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		if (con != null) {
@@ -169,8 +169,14 @@ public class UserDAO {
 				System.out.print(ps);
 				rs = ps.executeQuery();
 				while (rs.next()) {
+					if(rs.getString(1).isEmpty()) {
+						continue;
+					}
 					photos[index] = rs.getString(1);
 					index ++;
+					if(index == 9 ) {
+						break;
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.util.URLEncoder;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -69,17 +67,17 @@ public class APIPost extends HttpServlet {
 
 		Post postJson = new Gson().fromJson(request.getReader(), Post.class);
 		
-		String content = postJson.getContent();
-		ByteBuffer buffer = StandardCharsets.UTF_8.encode(content); 
-		String utf8EncodedString = StandardCharsets.UTF_8.decode(buffer).toString();
-
-		System.out.print("utf8EncodedString"+ utf8EncodedString);
+//		String content = postJson.getContent();
+//		ByteBuffer buffer = StandardCharsets.UTF_8.encode(content); 
+//		String utf8EncodedString = StandardCharsets.UTF_8.decode(buffer).toString();
+//
+//		System.out.print("utf8EncodedString"+ utf8EncodedString);
 		
 		String image = postJson.getImage();
 		String user_id = String.valueOf(postJson.getUser());
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
-		System.out.print("content" + content);
+//		System.out.print("content" + content);
 //		new PostDAO().addPost(content, image, Integer.valueOf(user_id), timestamp, 0);
 
 		String newPost = objectMapper.writeValueAsString(new PostDAO().findLastPost());

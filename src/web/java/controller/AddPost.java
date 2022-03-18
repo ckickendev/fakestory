@@ -44,7 +44,7 @@ public class AddPost extends HttpServlet {
 		String user_id = request.getParameter("user_id");
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
-//		System.out.print(content +"==="+  image +"==="+ Integer.valueOf(user_id) +"==="+timestamp);
+		System.out.print(content +"==="+  image +"==="+ Integer.valueOf(user_id) +"==="+timestamp);
 		PostDAO postDAO = new PostDAO();
 		postDAO.addPost(content, image,Integer.valueOf(user_id) , timestamp, 0);
 		response.sendRedirect("http://localhost:3000/");
