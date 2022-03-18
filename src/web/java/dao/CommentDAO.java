@@ -36,7 +36,7 @@ public class CommentDAO {
 	public List<Comment> findAllCommentByPostId(int id) {
 		List<Comment> all = new ArrayList<Comment>();
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "select * from comment where post_id = ?";
+		String query = "select * from comment where post_id = ? order by date_comment asc";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		if (con != null) {
