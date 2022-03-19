@@ -15,7 +15,7 @@ public class GroupDAO {
 	public List<Group> findAll() {
 		List<Group> allGroups = new ArrayList<Group>();
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "select * from group";
+		String query = "select * from group_fb";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		if (con != null) {
