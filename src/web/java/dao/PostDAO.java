@@ -70,7 +70,7 @@ public class PostDAO {
 				ps.setInt(3, user_id);
 				ps.setTimestamp(4, date_time);
 				ps.setInt(5, number_react);
-				System.out.print(ps);
+//				System.out.print(ps);
 				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -88,7 +88,7 @@ public class PostDAO {
 			try {
 				ps = con.prepareStatement(query);
 				ps.setInt(1, id);
-				System.out.print(ps);
+//				System.out.print(ps);
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					posts.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
@@ -113,7 +113,7 @@ public class PostDAO {
 				ps = con.prepareStatement(query);
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
-				System.out.print(ps);
+//				System.out.print(ps);
 				while (rs.next()) {
 					all.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
 							rs.getInt(6)));

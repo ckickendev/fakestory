@@ -2,7 +2,6 @@ package web.java.api;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,6 @@ import com.google.gson.Gson;
 
 import web.java.dao.PostDAO;
 import web.java.dao.ReactDAO;
-import web.java.model.Post;
 import web.java.model.React;
 
 /**
@@ -64,8 +62,9 @@ public class APIReact extends HttpServlet {
 		PrintWriter printWriter = response.getWriter();
 
 		React reactJson = new Gson().fromJson(request.getReader(), React.class);
-		
-		new ReactDAO().addReact(reactJson.getUser(), reactJson.getPost(), reactJson.getType());
+		System.out.print("react json" + reactJson);
+		new ReactDAO().react(reactJson.getUser(), reactJson.getPost(), reactJson.getType());
+//		();
 		String newPost = objectMapper.writeValueAsString(new PostDAO().findPostById(reactJson.getPost()));
 		printWriter.write(newPost);
 	}

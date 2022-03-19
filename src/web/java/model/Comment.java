@@ -90,7 +90,7 @@ public class Comment implements Comparable<Comment> {
 
 	public int compareTo(Comment comment) {
 		// sort student's name by ASC
-		return comment.getDatetime().compareTo(this.getDatetime());
+		return this.getDatetime().compareTo(comment.getDatetime());
 	}
 
 }
