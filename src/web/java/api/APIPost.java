@@ -57,7 +57,6 @@ public class APIPost extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
@@ -67,18 +66,11 @@ public class APIPost extends HttpServlet {
 
 		Post postJson = new Gson().fromJson(request.getReader(), Post.class);
 		
-//		String content = postJson.getContent();
-//		ByteBuffer buffer = StandardCharsets.UTF_8.encode(content); 
-//		String utf8EncodedString = StandardCharsets.UTF_8.decode(buffer).toString();
-//
-//		System.out.print("utf8EncodedString"+ utf8EncodedString);
 		
 		String image = postJson.getImage();
 		String user_id = String.valueOf(postJson.getUser());
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
-//		System.out.print("content" + content);
-//		new PostDAO().addPost(content, image, Integer.valueOf(user_id), timestamp, 0);
 
 		String newPost = objectMapper.writeValueAsString(new PostDAO().findLastPost());
 		printWriter.write(newPost);
@@ -94,18 +86,21 @@ public class APIPost extends HttpServlet {
 	}
 
 	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String post_id = req.getParameter("post_id");
-		String content = req.getParameter("content");
-		String image = req.getParameter("image");
-		String user_id = req.getParameter("user_id");
-		Date date = new Date();
-		Timestamp timestamp = new Timestamp(date.getTime());
-		int number_react = Integer.valueOf(req.getParameter("number_react"));
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
 
-		new PostDAO().modifyPost(Integer.valueOf(post_id), content, image, Integer.valueOf(user_id), timestamp,
-				number_react);
+		ObjectMapper objectMapper = new ObjectMapper();
+		PrintWriter printWriter = response.getWriter();
+
+		Post postJson = new Gson().fromJson(request.getReader(), Post.class);
+		new PostDAO().editPost(postJson);
+		
+		
+		String newPost = objectMapper.writeValueAsString(new PostDAO().findLastPost());
+		printWriter.write(newPost);
+		printWriter.close();
 	}
 
 }

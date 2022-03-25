@@ -71,6 +71,7 @@ public class APIUser extends HttpServlet {
 			e.printStackTrace();
 		}
 		new UserDAO().addUser(user);
+		resp.sendRedirect("http://localhost:3000/");
 	}
 
 	@Override

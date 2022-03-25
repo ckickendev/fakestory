@@ -58,6 +58,27 @@ public class GroupDAO {
 		}
 		return null;
 	}
+	
+	public Group findGroupNameByPostId(int id) {
+		Group group = null;
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from group_fb where group_id in (select group_id from post_in_group where post_id = ?) ";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					group = new Group(rs.getInt(1), rs.getString(2), rs.getString(3) , rs.getTimestamp(4), rs.getInt(5), rs.getString(6));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return group;
+	}
 
 	public Group findGroupById(int id) {
 		Group group = null;

@@ -24,7 +24,7 @@ public class PageDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 //   		 int id, String name, String description, Timestamp dateCreate, int liked
-					all.add(new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5)));
+					all.add(new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5), rs.getString(6), rs.getString(7)));
 				}
 				return all;
 			} catch (SQLException e) {
@@ -46,7 +46,7 @@ public class PageDAO {
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
 				while (rs.next()) {
-					page = new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5));
+					page = new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5), rs.getString(6), rs.getString(7));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -68,7 +68,7 @@ public class PageDAO {
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
 				while (rs.next()) {
-					pages.add(new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5)));
+					pages.add(new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getTimestamp(4), rs.getInt(5), rs.getString(6), rs.getString(7)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

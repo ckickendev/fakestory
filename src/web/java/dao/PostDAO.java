@@ -77,6 +77,22 @@ public class PostDAO {
 			}
 		}
 	}
+	
+	public void addPostToGroup(int postId, int groupId) {
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "insert into post_in_group(post_id, group_id) values (?,?) ";
+		PreparedStatement ps = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, postId);
+				ps.setInt(2, groupId);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public List<Post> findAllPostByUserId(int id) {
 		Connection con = new ConnectDB().getDBConnection();
@@ -155,6 +171,23 @@ public class PostDAO {
 			try {
 				ps = con.prepareStatement(query);
 				ps.setInt(1, post_id);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void editPost(Post post) {
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "update post set content = ? where post_id = ?";
+		PreparedStatement ps = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setString(1, post.getContent());
+				ps.setInt(2, post.getId());
+				System.out.print("query: " + ps);
 				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();

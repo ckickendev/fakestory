@@ -59,6 +59,54 @@ public class UserDAO {
 		return user;
 	}
 
+	public List<User> findUserByGroupId(int id) {
+		
+		List<User> users = new ArrayList<User>();
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from user where user_id in (select user_id from member where group_id = ?)";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
+					users.add(user);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return users;
+	}
+public List<User> findUserByPage(int id) {
+		
+		List<User> users = new ArrayList<User>();
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from user where user_id in (select user_id from like_page where page_id = ?)";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
+					users.add(user);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return users;
+	}
 	public void addUser(User user) {
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "insert into user(email, password, fullname, phone, role_id, description, number_friends, country, date_create, avatar, background, live, birthday,sex ) values (?,?,?,?,?,?,?,?,?,?,?,?,?, ?) ";

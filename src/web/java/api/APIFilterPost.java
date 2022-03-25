@@ -68,7 +68,7 @@ public class APIFilterPost extends HttpServlet {
 			System.out.print(b);
 			posts.add(b);
 		}
-		Collections.sort(posts);
+		Collections.shuffle(posts);
 		
 		String postJson = objectMapper.writeValueAsString(posts);
 		PrintWriter printWriter = response.getWriter();

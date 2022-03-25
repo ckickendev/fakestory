@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,37 +17,34 @@ import web.java.dao.PostDAO;
 import web.java.model.Post;
 
 /**
- * Servlet implementation class FindAllPostByUserId
+ * Servlet implementation class FindAllPostInGroup
  */
-@WebServlet("/api/post/user")
-public class FindAllPostByUserId extends HttpServlet {
+@WebServlet("/api/post/group")
+public class FindAllPostInGroup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public FindAllPostInGroup() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	public FindAllPostByUserId() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		PostDAO postDAO = new PostDAO();
-		List<Post> postOfUser = postDAO.findAllPostByUserId(Integer.valueOf(request.getParameter("id")));
+		List<Post> postOfUser = postDAO.findAllPostInGroup(Integer.valueOf(request.getParameter("id")));
 
-//		System.out.println(postOfUser);
+		
 		Collections.sort(postOfUser);
-		System.out.println(postOfUser);
 		String postJson = objectMapper.writeValueAsString(postOfUser);
 		PrintWriter printWriter = response.getWriter();
 		printWriter.write(postJson);
@@ -56,11 +52,9 @@ public class FindAllPostByUserId extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
