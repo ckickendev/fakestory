@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 
 import web.java.dao.PostDAO;
 import web.java.model.Post;
+import web.java.model.SingleID;
 
 /**
  * Servlet implementation class PostAPI
@@ -81,8 +82,16 @@ public class APIPost extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int id = Integer.parseInt(req.getParameter("postDelete"));
-		new PostDAO().deletePost(id);
+		req.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("application/json;charset=UTF-8");
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		PrintWriter printWriter = resp.getWriter();
+
+		SingleID singleId = new Gson().fromJson(req.getReader(), SingleID.class);
+		new PostDAO().deletePost(Integer.valueOf(singleId.getId()));
+		printWriter.close();
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class PostDAO {
 				while (rs.next()) {
 //   		 int id, String content, String image, int user, Timestamp time, int react
 					all.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
-							rs.getInt(6)));
+							rs.getInt(6), rs.getInt(7)));
 				}
 				return all;
 			} catch (SQLException e) {
@@ -49,7 +49,7 @@ public class PostDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					post = new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
-							rs.getInt(6));
+							rs.getInt(6), rs.getInt(7));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -108,7 +108,7 @@ public class PostDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					posts.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
-							rs.getInt(6)));
+							rs.getInt(6), rs.getInt(7)));
 				}
 
 			} catch (SQLException e) {
@@ -132,7 +132,7 @@ public class PostDAO {
 //				System.out.print(ps);
 				while (rs.next()) {
 					all.add(new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
-							rs.getInt(6)));
+							rs.getInt(6), rs.getInt(7)));
 				}
 				return all;
 			} catch (SQLException e) {
@@ -165,7 +165,7 @@ public class PostDAO {
 
 	public void deletePost(int post_id) {
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "delete * from post where post_id = ?";
+		String query = "update post set status = -1 where post_id = ?";
 		PreparedStatement ps = null;
 		if (con != null) {
 			try {
@@ -207,7 +207,7 @@ public class PostDAO {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					post = new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
-							rs.getInt(6));
+							rs.getInt(6), rs.getInt(7));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

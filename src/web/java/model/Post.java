@@ -12,8 +12,9 @@ public class Post implements Comparable<Post> {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp time;
 	private int react;
+	private int status;
 
-	public Post(int id, String content, String image, int user, Timestamp time, int react) {
+	public Post(int id, String content, String image, int user, Timestamp time, int react, int status) {
 		super();
 		this.id = id;
 		this.content = content;
@@ -21,6 +22,7 @@ public class Post implements Comparable<Post> {
 		this.user = user;
 		this.time = time;
 		this.react = react;
+		this.status = status;
 	}
 
 	public Post(int id, String content, String image, int user, int react) {
@@ -78,6 +80,14 @@ public class Post implements Comparable<Post> {
 
 	public void setReact(int react) {
 		this.react = react;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	@Override
