@@ -14,7 +14,7 @@ public class CommentDAO {
 	public List<Comment> findAll() {
 		List<Comment> all = new ArrayList<Comment>();
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "select * from comment";
+		String query = "select * from comment where status = 1";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		if (con != null) {
@@ -36,7 +36,7 @@ public class CommentDAO {
 	public List<Comment> findAllCommentByPostId(int id) {
 		List<Comment> all = new ArrayList<Comment>();
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "select * from comment where post_id = ? order by date_comment asc";
+		String query = "select * from comment where post_id = ? and status = 1 order by date_comment asc ";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		if (con != null) {
@@ -59,7 +59,7 @@ public class CommentDAO {
 	public void addComment(Comment comment) {
 		System.out.print("alo");
 		Connection con = new ConnectDB().getDBConnection();
-		String query = "insert into comment(user_rep_id, content, post_id, date_comment, reply_comment_id) values (? , ?, ?, ?, ?)";
+		String query = "insert into comment(user_rep_id, content, post_id, date_comment, reply_comment_id , status) values (? , ?, ?, ?, ?, 1)";
 		PreparedStatement ps = null;
 		if (con != null) {
 			try {
@@ -70,6 +70,21 @@ public class CommentDAO {
 				ps.setTimestamp(4, comment.getDatetime());
 				ps.setInt(5, comment.getRep_id());
 				System.out.print(ps);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void deleteComment(int comment_id) {
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "update comment set status = -1 where comment_id = ?";
+		PreparedStatement ps = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, comment_id);
 				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();

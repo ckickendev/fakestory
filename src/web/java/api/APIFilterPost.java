@@ -44,6 +44,8 @@ public class APIFilterPost extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
 		
+		int offset = Integer.valueOf(request.getParameter("offset"));
+		
 		ObjectMapper objectMapper = new ObjectMapper();
 		PostDAO postDAO = new PostDAO();
 		List<Post> postOfUser = postDAO.findAllPostByUserId(Integer.valueOf(request.getParameter("id")));
@@ -70,7 +72,10 @@ public class APIFilterPost extends HttpServlet {
 		}
 		Collections.shuffle(posts);
 		
-		String postJson = objectMapper.writeValueAsString(posts);
+		List<Post> newPost = posts.subList(10*(offset-1), 10*offset);
+		System.out.println(newPost);
+		
+		String postJson = objectMapper.writeValueAsString(newPost);
 		PrintWriter printWriter = response.getWriter();
 		printWriter.write(postJson);
 		printWriter.close();

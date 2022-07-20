@@ -18,6 +18,7 @@ import web.java.dao.CommentDAO;
 import web.java.dao.PostDAO;
 import web.java.model.Comment;
 import web.java.model.Post;
+import web.java.model.SingleID;
 
 /**
  * Servlet implementation class APIComment
@@ -65,6 +66,21 @@ public class APIComment extends HttpServlet {
 		String newComment = objectMapper.writeValueAsString(new PostDAO().findLastCommentInPost(commentJson.getPost_id()));
 //		System.out.print("New comment: "+ newComment);
 		printWriter.write(newComment);
+		printWriter.close();
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		req.setCharacterEncoding("UTF-8");
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("application/json;charset=UTF-8");
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		PrintWriter printWriter = resp.getWriter();
+
+		SingleID singleId = new Gson().fromJson(req.getReader(), SingleID.class);
+		new CommentDAO().deleteComment(Integer.valueOf(singleId.getId()));
 		printWriter.close();
 	}
 

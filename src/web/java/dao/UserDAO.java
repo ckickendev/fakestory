@@ -60,7 +60,7 @@ public class UserDAO {
 	}
 
 	public List<User> findUserByGroupId(int id) {
-		
+
 		List<User> users = new ArrayList<User>();
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "select * from user where user_id in (select user_id from member where group_id = ?)";
@@ -72,9 +72,10 @@ public class UserDAO {
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
 				while (rs.next()) {
-					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
-							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
+					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getString(5), rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7),
+							rs.getInt(8), rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10),
+							rs.getTimestamp(14));
 					users.add(user);
 				}
 			} catch (SQLException e) {
@@ -83,8 +84,9 @@ public class UserDAO {
 		}
 		return users;
 	}
-public List<User> findUserByPage(int id) {
-		
+
+	public List<User> findUserByPage(int id) {
+
 		List<User> users = new ArrayList<User>();
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "select * from user where user_id in (select user_id from like_page where page_id = ?)";
@@ -96,9 +98,10 @@ public List<User> findUserByPage(int id) {
 				ps.setInt(1, id);
 				rs = ps.executeQuery();
 				while (rs.next()) {
-					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
-							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10), rs.getTimestamp(14));
+					User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getString(5), rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7),
+							rs.getInt(8), rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10),
+							rs.getTimestamp(14));
 					users.add(user);
 				}
 			} catch (SQLException e) {
@@ -107,6 +110,7 @@ public List<User> findUserByPage(int id) {
 		}
 		return users;
 	}
+
 	public void addUser(User user) {
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "insert into user(email, password, fullname, phone, role_id, description, number_friends, country, date_create, avatar, background, live, birthday,sex ) values (?,?,?,?,?,?,?,?,?,?,?,?,?, ?) ";
@@ -201,7 +205,7 @@ public List<User> findUserByPage(int id) {
 		}
 		return user;
 	}
-	
+
 	public String[] findAllImageByUserId(int id) {
 		String[] photos = new String[9];
 		int index = 0;
@@ -217,12 +221,12 @@ public List<User> findUserByPage(int id) {
 				System.out.print(ps);
 				rs = ps.executeQuery();
 				while (rs.next()) {
-					if(rs.getString(1).isEmpty()) {
+					if (rs.getString(1).isEmpty()) {
 						continue;
 					}
 					photos[index] = rs.getString(1);
-					index ++;
-					if(index == 9 ) {
+					index++;
+					if (index == 9) {
 						break;
 					}
 				}
@@ -235,7 +239,7 @@ public List<User> findUserByPage(int id) {
 
 	public int[] findFriendId(int id, int number) {
 		int[] idArray = new int[20];
-		int index=0;
+		int index = 0;
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "select user_id_2 as user_id from friend_status where user_id_1 = ? and status = 1 ";
 		PreparedStatement ps = null;
@@ -247,7 +251,7 @@ public List<User> findUserByPage(int id) {
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					idArray[index] = rs.getInt(1);
-					index ++;
+					index++;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -329,6 +333,22 @@ public List<User> findUserByPage(int id) {
 			userClone.add(users.get(i));
 		}
 		return userClone;
+	}
+
+	public void changeAvatar(String userId, String image) {
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "update user set avatar = ? where user_id = ?";
+		PreparedStatement ps = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setString(1, image);
+				ps.setString(2, userId);
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

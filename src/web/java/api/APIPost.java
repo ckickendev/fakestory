@@ -91,6 +91,7 @@ public class APIPost extends HttpServlet {
 
 		SingleID singleId = new Gson().fromJson(req.getReader(), SingleID.class);
 		new PostDAO().deletePost(Integer.valueOf(singleId.getId()));
+		printWriter.write("Success");
 		printWriter.close();
 	}
 
@@ -109,6 +110,7 @@ public class APIPost extends HttpServlet {
 		
 		String newPost = objectMapper.writeValueAsString(new PostDAO().findLastPost());
 		printWriter.write(newPost);
+		
 		printWriter.close();
 	}
 
