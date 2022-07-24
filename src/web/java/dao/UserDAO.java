@@ -218,7 +218,6 @@ public class UserDAO {
 			try {
 				ps = con.prepareStatement(query);
 				ps.setInt(1, id);
-				System.out.print(ps);
 				rs = ps.executeQuery();
 				while (rs.next()) {
 					if (rs.getString(1).isEmpty()) {
@@ -276,10 +275,8 @@ public class UserDAO {
 		}
 		int sizeId = index;
 		int size = number > sizeId ? sizeId : number;
-//		System.out.println("size"+ size);
 		int[] cloneArr = new int[size];
 		for (int i = 0; i < size; i++) {
-//			System.out.println("Cloning element: " + idArray[i]);
 			cloneArr[i] = idArray[i];
 		}
 		return cloneArr;
@@ -326,10 +323,8 @@ public class UserDAO {
 			}
 		}
 		int size = number > users.size() ? users.size() : number;
-		System.out.print(size);
 		List<User> userClone = new ArrayList<User>(size);
 		for (int i = 0; i < size; i++) {
-			System.out.print(users.get(i));
 			userClone.add(users.get(i));
 		}
 		return userClone;
@@ -345,10 +340,56 @@ public class UserDAO {
 				ps.setString(1, image);
 				ps.setString(2, userId);
 				ps.executeUpdate();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int checkRelationship(int userId, int userCurrentId) {
+		int relationship = 2;
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from friend_status where user_id_1 = ? and user_id_2 = ? or user_id_1 = ? and user_id_2 = ? ";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, userId);
+				ps.setInt(2, userCurrentId);
+				ps.setInt(3, userCurrentId);
+				ps.setInt(4, userId);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					relationship = rs.getInt(4);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return relationship;
+	} 
+	
+	public int checkRecieveOrRequest(int userId, int userCurrentId) {
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from friend_status where user_id_1 = ? and user_id_2 = ?";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, userId);
+				ps.setInt(2, userCurrentId);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					return 1;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
 	}
 
 }
