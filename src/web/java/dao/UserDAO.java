@@ -329,6 +329,51 @@ public class UserDAO {
 		}
 		return userClone;
 	}
+	
+	public List<User> findAllFriendByIdUnlimited(int id) {
+		List<User> users = new ArrayList<User>();
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from user where user_id in (select user_id_2 as user_id from friend_status where user_id_1 = ? and status = 1 )";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10),
+							rs.getTimestamp(14)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		query = "select * from user where user_id in (select user_id_1 as user_id from friend_status where user_id_2 = ? and status = 1 )";
+		ps = null;
+		rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					users.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
+							rs.getString(11), rs.getString(12), rs.getInt(6), rs.getString(7), rs.getInt(8),
+							rs.getString(9), rs.getString(13), rs.getInt(15), rs.getTimestamp(10),
+							rs.getTimestamp(14)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return users;
+	}
+
 
 	public void changeAvatar(String userId, String image) {
 		Connection con = new ConnectDB().getDBConnection();

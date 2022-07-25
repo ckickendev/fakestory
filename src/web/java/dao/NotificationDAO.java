@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import web.java.model.Notification;
@@ -55,6 +57,28 @@ public class NotificationDAO {
 			}
 		}
 		return null;
+	}
+	
+	public void addNotification(int userId, String title, String content, int type, int userCurrentId) {
+		Connection con = new ConnectDB().getDBConnection();
+		Date date = new Date();
+		Timestamp timestamp = new Timestamp(date.getTime());
+		String query = "insert into notification(user_id, title, date_time, status, forward_id) values (?, ?, ?, ?, ?)";
+		PreparedStatement ps = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, userId);
+				ps.setString(2, title);
+				ps.setTimestamp(3, timestamp);
+				ps.setInt(4, type);
+				ps.setInt(5, userCurrentId);
+				System.out.println(ps);
+				ps.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 //	public Notification findFriendRequest() {

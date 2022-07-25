@@ -212,6 +212,28 @@ public class PostDAO {
 		return post;
 	}
 	
+	public Post findLastPostByUser(int id) {
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "SELECT * FROM post where user_id = ? order by date_time desc limit 1";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Post post = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, id);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					post = new Post(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getTimestamp(5),
+							rs.getInt(6), rs.getInt(7));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return post;
+	}
+	
 	public Comment findLastCommentInPost(int id) {
 		Connection con = new ConnectDB().getDBConnection();
 		String query = "select * from comment where post_id = ? order by date_comment desc limit 1";

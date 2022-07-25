@@ -66,8 +66,7 @@ public class APIPost extends HttpServlet {
 		PrintWriter printWriter = response.getWriter();
 
 		Post postJson = new Gson().fromJson(request.getReader(), Post.class);
-		
-		
+
 		String image = postJson.getImage();
 		String user_id = String.valueOf(postJson.getUser());
 		Date date = new Date();
@@ -96,7 +95,8 @@ public class APIPost extends HttpServlet {
 	}
 
 	@Override
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPut(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
@@ -106,11 +106,10 @@ public class APIPost extends HttpServlet {
 
 		Post postJson = new Gson().fromJson(request.getReader(), Post.class);
 		new PostDAO().editPost(postJson);
-		
-		
+
 		String newPost = objectMapper.writeValueAsString(new PostDAO().findLastPost());
 		printWriter.write(newPost);
-		
+
 		printWriter.close();
 	}
 

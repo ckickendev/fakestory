@@ -3,6 +3,7 @@ package web.java.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import web.java.dao.NotificationDAO;
 import web.java.dao.PostDAO;
+import web.java.dao.UserDAO;
+import web.java.model.Notification;
+import web.java.model.Post;
+import web.java.model.User;
 
 
 /**
@@ -46,7 +52,14 @@ public class AddPost extends HttpServlet {
 		Timestamp timestamp = new Timestamp(date.getTime());
 		System.out.print(content +"==="+  image +"==="+ Integer.valueOf(user_id) +"==="+timestamp);
 		PostDAO postDAO = new PostDAO();
+		NotificationDAO notificationDAO = new NotificationDAO();
 		postDAO.addPost(content, image,Integer.valueOf(user_id) , timestamp, 0);
+		Post LastPost = postDAO.findLastPostByUser(Integer.valueOf(user_id));
+		List<User> users = new UserDAO().findAllFriendByIdUnlimited(Integer.valueOf(user_id));
+		System.out.println(users);
+		for(User user : users) {
+			notificationDAO.addNotification(user.getId(), "Đã đăng một bài viết mới", String.valueOf(LastPost.getId()), 1, Integer.parseInt(user_id));
+		}
 		response.sendRedirect("http://localhost:3000/");
 	}
 
