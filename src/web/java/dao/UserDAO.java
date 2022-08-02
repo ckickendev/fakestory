@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import web.java.model.Friendship;
 import web.java.model.User;
 import web.java.utils.ConnectDB;
 import web.java.utils.GeneralFunction;
@@ -211,7 +212,7 @@ public class UserDAO {
 		int index = 0;
 		Connection con = new ConnectDB().getDBConnection();
 
-		String query = "select image as img from post where user_id = ? order by date_time desc";
+		String query = "select image as img from post where user_id = ? and status = 1 order by date_time desc";
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		if (con != null) {
@@ -414,6 +415,30 @@ public class UserDAO {
 			}
 		}
 		return relationship;
+	} 
+	
+	public Friendship checkFullRelationship(int userId, int userCurrentId) {
+		Friendship friendship = null;
+		Connection con = new ConnectDB().getDBConnection();
+		String query = "select * from friend_status where user_id_1 = ? and user_id_2 = ? or user_id_1 = ? and user_id_2 = ? ";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		if (con != null) {
+			try {
+				ps = con.prepareStatement(query);
+				ps.setInt(1, userId);
+				ps.setInt(2, userCurrentId);
+				ps.setInt(3, userCurrentId);
+				ps.setInt(4, userId);
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					friendship = new Friendship(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getInt(4));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return friendship;
 	} 
 	
 	public int checkRecieveOrRequest(int userId, int userCurrentId) {

@@ -1,10 +1,7 @@
-package web.java.api.messenger;
+package web.java.api.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,22 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import web.java.dao.GroupDAO;
-import web.java.dao.MessageDAO;
-import web.java.model.Group;
-import web.java.model.Message;
+import web.java.dao.UserDAO;
+import web.java.model.Friendship;
 
 /**
- * Servlet implementation class InfoMessengerBoard
+ * Servlet implementation class CheckFullRelationshipServlet
  */
-@WebServlet("/api/messenger/allmess")
-public class InfoMessengerBoard extends HttpServlet {
+@WebServlet("/api/relationship/full/user")
+public class CheckFullRelationshipServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InfoMessengerBoard() {
+    public CheckFullRelationshipServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,22 +36,11 @@ public class InfoMessengerBoard extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
-
 		ObjectMapper objectMapper = new ObjectMapper();
-		
-		Integer currentId = Integer.valueOf(request.getParameter("id"));
-		
-		List<Message> mess = new ArrayList<Message>();
-		Set<Integer> setMessage = new MessageDAO().getListUserChatById(currentId);
-		MessageDAO messagesDAO = new MessageDAO();
-		for(Integer x: setMessage) {
-			mess.add(messagesDAO.getLastMessageBetweenTwoPeople(currentId, x));
-		}
-		System.out.println("All last mess" + mess);
-		String pagesJson = objectMapper.writeValueAsString(mess);
-
+		Friendship relationship = new UserDAO().checkFullRelationship(Integer.valueOf(request.getParameter("userId")), Integer.valueOf(request.getParameter("userCurrentId")));
+		String userJson = objectMapper.writeValueAsString(relationship);
 		PrintWriter printWriter = response.getWriter();
-		printWriter.write(pagesJson);
+		printWriter.write(userJson);
 		printWriter.close();
 	}
 
